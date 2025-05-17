@@ -22,7 +22,7 @@ export class Timer {
     //"hh:mm:ss";
     static timerFromString(s) {
         let args = s.split(":").map((x) => Number(x));
-        while (args.length < 3) args.unshift(0);
+        if (args.length < 3) args = [0, 0, 0];
         return new Timer(...args);
     }
 

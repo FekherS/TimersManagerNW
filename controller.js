@@ -37,7 +37,7 @@ ui.uiElements.addB.addEventListener("click", () => {
     }
 });
 
-ui.uiElements.removeB.addEventListener("click", () => {
+function removeTimer() {
     if (appState.countdown === magicValues.countdownUnset && appState.timersList.length) {
         if (appState.loopFlag === magicValues.loopFlagSet && appState.timersList.length - 1 === appState.loop) {
             appState.loopFlag = magicValues.loopFlagUnset;
@@ -48,7 +48,8 @@ ui.uiElements.removeB.addEventListener("click", () => {
         appState.timersList[appState.timersList.length - 1] = null;
         appState.timersList.pop();
     }
-});
+}
+ui.uiElements.removeB.addEventListener("click", removeTimer);
 
 ui.uiElements.timersDiv.addEventListener("change", (e) => {
     if (e.target.type === "time") {
@@ -164,6 +165,37 @@ ui.uiElements.pauseB.addEventListener("click", () => {
     appState.nextFireAt = appState.timersList[appState.ord].pauseTimer();
 })
 
+ui.uiElements.saveB.addEventListener("click", () => {
+    localStorage.setItem(
+      "timersList",
+      JSON.stringify(appState.timersList.map((timer) => timer.timeInSeconds))
+    );
+    ui.appendAlert("Config saved", "success", magicValues.alertTimeout);
+    localStorage.setItem("loopFlag", appState.loopFlag);
+    localStorage.setItem("loop", appState.loop);
+})
+ui.uiElements.loadB.addEventListener("click",()=>{
+    const savedTimers = JSON.parse(localStorage.getItem("timersList") || "[]");
+    appState.loopFlag === magicValues.loopFlagUnset;
+    while (appState.timersList.length) {
+        removeTimer();        
+    }
+    savedTimers.forEach((time, index) => {
+        ui.addTimer(index);
+        ui.updateTimer(index, secondsToString(time));
+        const timer = Timer.timerFromString(secondsToString(time));
+        appState.timersList.push(timer);
+    });
+    const localLoopFlag = localStorage.getItem("loopFlag");
+    const localLoop = localStorage.getItem("loop");
+    if (localLoopFlag && localLoopFlag.trim() !== "") {
+        if (localLoopFlag === "true") {
+            appState.loopFlag = magicValues.loopFlagSet;
+            appState.loop = Number(localLoop);
+            ui.setLoopIndicator(appState.loop);
+        }
+    }
+})
 
 //util
 function beep(duration = 200, frequency = 440, volume = 1, type = "sine") {

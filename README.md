@@ -11,12 +11,12 @@ following (trying to at least) best practices
 - set loops.
 - start, stop, pause timers.
 - generic beep sound.
+- added a local storage configuration (save, load);
+- apploaded to aws, [Live demo] (http://timersmanagerbucket.s3-website.eu-central-1.amazonaws.com/)
 
 ## What to implement next:
-- add cookie so I don't need to setup the timers each time.
 - upload some nice beeps to choose from.
 - add upload for those that have their own beeps.
-- upload project to aws for personal use
 
 ## Issues encountered:
 - Browsers throttle inactive web pages, countdowns timers pause/stall. 
