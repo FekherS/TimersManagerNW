@@ -180,7 +180,7 @@ ui.uiElements.loadB.addEventListener("click", () => {
         return;
     }
     const savedTimers = JSON.parse(localStorage.getItem("timersList") || "[]");
-    appState.loopFlag === magicValues.loopFlagUnset;
+    appState.loopFlag = magicValues.loopFlagUnset;
     while (appState.timersList.length) {
         removeTimer();        
     }
@@ -189,6 +189,12 @@ ui.uiElements.loadB.addEventListener("click", () => {
         ui.updateTimer(index, secondsToString(time));
         const timer = Timer.timerFromString(secondsToString(time));
         appState.timersList.push(timer);
+        appState.timersList[appState.timersList.length - 1].setOnTimerEnd(
+          () => {
+            beep(1000, 440, 4);
+            countdownBegin();
+          }
+        );
     });
     const localLoopFlag = localStorage.getItem("loopFlag");
     const localLoop = localStorage.getItem("loop");
