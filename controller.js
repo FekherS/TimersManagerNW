@@ -174,7 +174,11 @@ ui.uiElements.saveB.addEventListener("click", () => {
     localStorage.setItem("loopFlag", appState.loopFlag);
     localStorage.setItem("loop", appState.loop);
 })
-ui.uiElements.loadB.addEventListener("click",()=>{
+ui.uiElements.loadB.addEventListener("click", () => {
+    if (appState.countdown === magicValues.countdownSet) {
+        ui.appendAlert("Stop countdown before loading", "warning", magicValues.alertTimeout);
+        return;
+    }
     const savedTimers = JSON.parse(localStorage.getItem("timersList") || "[]");
     appState.loopFlag === magicValues.loopFlagUnset;
     while (appState.timersList.length) {
