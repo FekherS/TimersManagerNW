@@ -1,4 +1,17 @@
+*{
+  box-sizing: border-box;
+}
 #timers {
   display: flex;
   gap: 10px;
+}
+body>div{
+  position: relative;
+}
+#liveAlertPlaceholder{
+  position: absolute;
+  width: 90%;
+  z-index: 2;
+  left :5%;
+  top: 50%;
 }
